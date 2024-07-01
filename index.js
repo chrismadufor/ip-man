@@ -28,7 +28,7 @@ app.get('/api/hello', async (req, res) => {
         res.json(response);
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: 'Failed to fetch location data' });
+        res.status(500).json({ error: 'Failed to fetch location data', ip: clientIp });
     }
 });
 

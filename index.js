@@ -6,13 +6,12 @@ const PORT = 3000;
 
 app.get('/api/hello', async (req, res) => {
     const visitorName = req.query.visitor_name || 'Guest';
+    // Get the location based on IP address
     const clientIp = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
     
-    // Get the location based on IP address
     try {
         // get city, long and lat using IP address
         const locationResponse = await axios.get(`https://ipapi.co/${clientIp}/json/`);
-        console.log({clientIp, locationResponse})
         const city = locationResponse.data.city || 'Unknown location';
         const longitude = locationResponse.data.longitude
         const latitude = locationResponse.data.latitude
@@ -28,8 +27,8 @@ app.get('/api/hello', async (req, res) => {
         
         res.json(response);
     } catch (error) {
-        // console.error(error);
-        res.status(500).json({ error: 'Failed to fetch location data', ip: clientIp });
+        console.error(error);
+        res.status(500).json({ error: 'Failed to fetch location data' });
     }
 });
 
